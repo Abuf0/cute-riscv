@@ -87,7 +87,7 @@ ee_u16 core_bench_matrix(mat_params *p, ee_s16 seed, ee_u16 crc) {
 
 	//N=1;	// todo
 	crc=crc16(matrix_test(N,C,A,B,val),crc);
-	printf("core_bench_matrix done\n");
+	//printf("core_bench_matrix done\n");
 
 	return crc;
 }
@@ -117,21 +117,21 @@ ee_u16 core_bench_matrix(mat_params *p, ee_s16 seed, ee_u16 crc) {
 	After the last step, matrix A is back to original contents.
 */
 ee_s16 matrix_test(ee_u32 N, MATRES *C, MATDAT *A, MATDAT *B, MATDAT val) {
-	printf("test\n");
+	//printf("test\n");
 	ee_u16 crc=0;
 	MATDAT clipval=matrix_big(val);
-	printf("add const\n");
+	//printf("add const\n");
 	matrix_add_const(N,A,val); /* make sure data changes  */
 #if CORE_DEBUG
 	printmat(A,N,"matrix_add_const");
 #endif
-	printf("mul const\n");
+	//printf("mul const\n");
 	matrix_mul_const(N,C,A,val);
 	crc=crc16(matrix_sum(N,C,clipval),crc);
 #if CORE_DEBUG
 	printmatC(C,N,"matrix_mul_const");
 #endif
-	printf("mul vect\n");
+	//printf("mul vect\n");
 	matrix_mul_vect(N,C,A,B);
 	crc=crc16(matrix_sum(N,C,clipval),crc);
 #if CORE_DEBUG
@@ -149,7 +149,7 @@ ee_s16 matrix_test(ee_u32 N, MATRES *C, MATDAT *A, MATDAT *B, MATDAT val) {
 #if CORE_DEBUG
 	printmatC(C,N,"matrix_mul_matrix_bitextract");
 #endif
-	printf("add const\n");
+	//printf("add const\n");
 	matrix_add_const(N,A,-val); /* return matrix to initial value */
 	return crc;
 }

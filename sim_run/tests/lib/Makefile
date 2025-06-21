@@ -56,6 +56,11 @@ else
 endif
 CFLAGS = ${FLAG_MARCH} ${FLAG_ABI} -g
 
+ifeq (${CASENAME}, coremark)
+  CFLAGS += -c -O3
+else
+  CFLAGS += -c -O2
+endif
 #ifeq (${CASENAME}, coremark)
 #  CFLAGS +=  -c -O3 -mtune=c906 -static -funroll-all-loops -finline-limit=500 -fgcse-sm -fno-schedule-insns --param max-rtl-if-conversion-unpredictable-cost=100 -msignedness-cmpiv -fno-code-hoisting -mno-thread-jumps1 -mno-iv-adjust-addr-cost -mno-expand-split-imm -DITERATIONS=10000
 #else

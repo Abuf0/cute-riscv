@@ -4,11 +4,21 @@ vcs_compile:
 		-f ../filelist/filelist.f \
 		-timescale=1ns/1ns \
 		-full64  -kdb -lca -R  +vc  +v2k  -sverilog  -debug_access+all  \
-		-partcomp -fastpartcomp=j4 \
+		-partcomp -fastpartcomp=j8 \
 		|tee vcs_compile.log  
 
 #verdi:
 #	cd work && verdi -dbdir simv.daidir -ssf top.fsdb -sv &
+
+vcs_clean:
+	@echo "clean simulation files"
+	cd work && rm simv.daidir \
+	partitionlib  \
+	verdiLog  \
+	csrc  \
+	verdiLog  \
+	simv \
+	top.fsdb* -r
 
 include ./setup/smart_cfg.mk
 include ./setup/env_check.mk

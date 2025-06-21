@@ -61,8 +61,8 @@ logic cpu_wvalid;
 always@(posedge clk) begin
     cpu_awaddr[31:0] <= cuteriscv_tb.cutecore_inst.cutecore_logic_1.commit_1.io_wb_dacahe_interfacec_waddr[31:0];
     cpu_wdata[31:0] <= cuteriscv_tb.cutecore_inst.cutecore_logic_1.commit_1.io_wb_dacahe_interfacec_wdata[31:0];
-    //cpu_wvalid <= cuteriscv_tb.cutecore_inst.cutecore_logic_1.commit_1.io_wb_dacahe_interfacec_we;
-    cpu_wvalid <= cuteriscv_tb.cutecore_inst.cutecore_logic_1.mmu_1.io_s_memory_write_interface_wvalid;
+    cpu_wvalid <= cuteriscv_tb.cutecore_inst.cutecore_logic_1.commit_1.io_wb_dacahe_interfacec_we;
+    //cpu_wvalid <= cuteriscv_tb.cutecore_inst.cutecore_logic_1.mmu_1.io_s_memory_write_interface_wvalid;
 end
 
 

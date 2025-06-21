@@ -101,6 +101,7 @@ ee_s16 calc_func(ee_s16 *pdata, core_results *res) {
 	Can be used by mergesort.
 */
 ee_s32 cmp_complex(list_data *a, list_data *b, core_results *res) {
+	//printf("cmp_complex ");
 	ee_s16 val1=calc_func(&(a->data16),res);
 	ee_s16 val2=calc_func(&(b->data16),res);
 	return val1 - val2;
@@ -142,18 +143,23 @@ ee_u16 core_bench_list(core_results *res, ee_s16 finder_idx) {
 	ee_s16 i;
 
 	info.idx=finder_idx;
-	printf("FN=%d",find_num);
+	printf("FN=%d ",find_num);
 	/* find <find_num> values in the list, and change the list each time (reverse and cache if value found) */
 	for (i=0; i<find_num; i++) {
 		//printf("f%d",i);
 		info.data16= (i & 0xff) ;
+		//printf("b1");
 		this_find=core_list_find(list,&info);
+		//printf("b2");
 		list=core_list_reverse(list);
+		//printf("b3");
 		if (this_find==NULL) {
+			//printf("b4");
 			missed++;
 			retval+=(list->next->info->data16 >> 8) & 1;
 		}
 		else {
+			//printf("b5");
 			found++;
 			if (this_find->info->data16 & 0x1) /* use found value */
 				retval+=(this_find->info->data16 >> 9) & 1;
@@ -165,6 +171,7 @@ ee_u16 core_bench_list(core_results *res, ee_s16 finder_idx) {
 				list->next=finder;
 			}
 		}
+		//printf("b6\n");
 		if (info.idx>=0)
 			info.idx++;
 #if CORE_DEBUG
@@ -174,8 +181,11 @@ ee_u16 core_bench_list(core_results *res, ee_s16 finder_idx) {
 	printf("B2");
 	retval+=found*4-missed;
 	/* sort the list by data content and remove one item*/
-	if (finder_idx>0)
+	if (finder_idx>0){
+		//printf("core_list_mergesort ");
 		list=core_list_mergesort(list,cmp_complex,res);
+	}
+	//printf("core_list_remove ");
 	remover=core_list_remove(list->next);
 	/* CRC data content of list from location of index N forward, and then undo remove */
 	finder=core_list_find(list,&info);
@@ -381,12 +391,18 @@ list_head *core_list_undo_remove(list_head *item_removed, list_head *item_modifi
 */
 list_head *core_list_find(list_head *list,list_data *info) {
 	if (info->idx>=0) {
-		while (list && (list->info->idx != info->idx))
+		//printf("IF");
+		while (list && (list->info->idx != info->idx)){
+			//printf("A");
 			list=list->next;
+		}
 		return list;
 	} else {
-		while (list && ((list->info->data16 & 0xff) != info->data16))
+		//printf("EL");
+		while (list && ((list->info->data16 & 0xff) != info->data16)){
+			//printf("A");
 			list=list->next;
+		}
 		return list;
 	}
 }
@@ -442,7 +458,7 @@ list_head *core_list_mergesort(list_head *list, list_cmp cmp, core_results *res)
     insize = 1;
 
     while (1) {
-		printf("M1");
+		//printf("M1");
         p = list;
         list = NULL;
         tail = NULL;
@@ -450,7 +466,7 @@ list_head *core_list_mergesort(list_head *list, list_cmp cmp, core_results *res)
         nmerges = 0;  /* count number of merges we do in this pass */
 
         while (p) {
-			printf("p");
+			//printf("p");
             nmerges++;  /* there exists a merge to be done */
             /* step `insize' places along from p */
             q = p;
@@ -494,7 +510,7 @@ list_head *core_list_mergesort(list_head *list, list_cmp cmp, core_results *res)
         }
 		
 	    tail->next = NULL;
-		printf("o");
+		//printf("o");
         /* If we have done only one merge, we're finished. */
         if (nmerges <= 1)   /* allow for nmerges==0, the empty list case */
             return list;

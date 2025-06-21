@@ -63,8 +63,10 @@ void *iterate(void *pres) {
 #endif
 	for (i=0; i<iterations; i++) {
 		printf("i=%d",i);
+		//printf("bch1");
 		crc=core_bench_list(res,1);
 		res->crc=crcu16(crc,res->crc);
+		//printf("bch-1");
 		crc=core_bench_list(res,-1);
 		res->crc=crcu16(crc,res->crc);
 		if (i==0) res->crclist=res->crc;
@@ -178,7 +180,7 @@ MAIN_RETURN_TYPE main(int argc, char *argv[]) {
 	results[0].seed1= 0;	//get_seed(1);	// todo
 	results[0].seed2= 0;	//get_seed(2);	// todo
 	results[0].seed3= 0;	//get_seed(3);	// todo
-	results[0].iterations= 10;//2;	// todo
+	results[0].iterations= 1;//2;	// todo
 #if CORE_DEBUG
 	results[0].iterations=1;
 #endif
@@ -248,23 +250,23 @@ MAIN_RETURN_TYPE main(int argc, char *argv[]) {
 			j++;
 		}
 	}
-	printf("T1");
+	//printf("T1");
 	/* call inits */
 	for (i=0 ; i<MULTITHREAD; i++) {
 		if (results[i].execs & ID_LIST) {
-			printf("T2");
+			//printf("T2");
 			results[i].list=core_list_init(results[0].size,results[i].memblock[1],results[i].seed1);
 		}
 		if (results[i].execs & ID_MATRIX) {
-			printf("T3");
+			//printf("T3");
 			core_init_matrix(results[0].size, results[i].memblock[2], (ee_s32)results[i].seed1 | (((ee_s32)results[i].seed2) << 16), &(results[i].mat) );
 		}
 		if (results[i].execs & ID_STATE) {
-			printf("T4");
+			//printf("T4");
 			core_init_state(results[0].size,results[i].seed1,results[i].memblock[3]);
 		}
 	}
-	printf("T5");
+	//printf("T5");
 	/* automatically determine number of iterations if not set */
 	if (results[0].iterations==0) { 
 		secs_ret secs_passed=0;
@@ -283,7 +285,7 @@ MAIN_RETURN_TYPE main(int argc, char *argv[]) {
 			divisor=1;
 		results[0].iterations*=1+10/divisor;
 	}
-	printf("T6");
+	//printf("T6");
 	/* perform actual benchmark */
 	start_timer();
 #if (MULTITHREAD>1)

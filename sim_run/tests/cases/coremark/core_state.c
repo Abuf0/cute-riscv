@@ -205,7 +205,7 @@ enum CORE_STATE core_state_transition( ee_u8 **instr , ee_u32 *transition_count)
 			break;
 		}
 		switch(state) {
-		printf("state=%d ",state);
+		//printf("state=%d ",state);
 		case CORE_START:
 			if(ee_isdigit(NEXT_SYMBOL)) {
 				state = CORE_INT;
@@ -300,7 +300,7 @@ enum CORE_STATE core_state_transition( ee_u8 **instr , ee_u32 *transition_count)
 			}
 			break;
 		default:
-			printf("DF ");	// todo
+			//printf("DF ");	// todo
 			break;
 		}
 	}
